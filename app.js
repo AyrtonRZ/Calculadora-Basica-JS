@@ -21,7 +21,6 @@ var vars = {
     eight: document.getElementsByClassName("eight")[0],
     nine: document.getElementsByClassName("nine")[0]
   }
-  //hundlers
 
 for (var btn in vars) {
   if (btn === "display" || btn === "displayInfo" || btn === "displayInd") continue;
@@ -110,9 +109,7 @@ function removeZero(str) {
       ++i;
     }
   }
-
   return result
-
 }
 
 function fixOper(str) {
