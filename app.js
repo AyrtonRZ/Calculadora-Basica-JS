@@ -28,7 +28,6 @@ for (var btn in vars) {
     vars[button].addEventListener("click", function() {
       calculate(button);
     });
-
     if (button === "ac" || button === "ce" || button === "eq") {
       document.addEventListener("keyup", function(event) {
         if(button === getChar(event, true)){
@@ -51,7 +50,6 @@ function getChar(event, add) {
     35 : "ce",
     46 : "ac"
   };
-  
   if (add) {
     return keyMap[event.which];
   } else {
@@ -59,13 +57,11 @@ function getChar(event, add) {
       if (event.keyCode < 32) return "eq"
       return String.fromCharCode(event.keyCode)
     }
-
     if (event.which != 0 && event.charCode != 0) {
       if (event.which < 32) return "eq"
       return String.fromCharCode(event.which);
     }
   }
-
   return ""
 }
 
@@ -93,17 +89,12 @@ function toStr(btn) {
 
 function removeZero(str) {
   var result = str;
-
   var senseOperators = ["+", "-"]
-
   var dotCond, firstZero, operZero;
-
   for (var i = 0; i < result.length - 1; i++) {
-
     dotCond = (result[i + 1] !== ".");
     firstZero = (i === 0) && (result[i] === "0") && dotCond;
     operZero = (senseOperators.indexOf(result[i - 1]) !== -1) && (result[i] === "0") && dotCond;
-
     if (firstZero || operZero) {
       result = result.slice(0, i) + result.slice(i + 1);
       ++i;
@@ -117,42 +108,34 @@ function fixOper(str) {
   var operators1 = ["*", "/"];
   var operators2 = ["+", "-"];
   var cond, optCond;
-
   for (var i = 0; i < result.length - 1; i++) {
     cond = operators1.indexOf(result[i]) !== -1 && operators1.indexOf(result[i + 1]) !== -1;
-
     if (cond) {
       result = result.slice(0, i) + result.slice(i + 1);
     }
   }
-
   for (i = 0; i < result.length - 1; i++) {
     cond = operators2.indexOf(result[i]) !== -1 && (result[i] === result[i + 1]);
     optCond = (result[i] === "-") && (result[i + 1] === "+");
-
     if (cond) {
       result = result.slice(0, i) + result.slice(i + 1);
     } else if (optCond) {
       result = result.slice(0, i + 1) + result.slice(i + 2)
     }
   }
-
   for (i = 0; i < result.length - 2; i++) {
     if (operators1.indexOf(result[i]) !== -1 && operators2.indexOf(result[i + 1]) !== -1 && operators1.indexOf(result[i + 2]) !== -1) {
       result = result.slice(0, i + 2) + result.slice(i + 3);
     }
   }
-
   for (i = 0; i < result.length - 1; i++) {
     if (operators2.indexOf(result[i]) !== -1 && operators1.indexOf(result[i + 1]) !== -1) {
       result = result.slice(0, i + 1) + result.slice(i + 2)
     }
   }
-
   if (operators1.indexOf(result[0]) !== -1) {
     result = "0";
   }
-
   return result;
 }
 
@@ -187,14 +170,12 @@ var max = {
 
 function calculate(btn, isFromKey) {
   var operators = ["minus", "plus", "div", "mult"];
-
   if (btn === "ac") {
     vars.display.innerText = "0";
     vars.displayInfo.innerText = "0";
     max.remove();
     return;
   }
-
   if (btn === "ce") {
     var result = removeLast(vars.displayInfo.innerText);
     if (!result) {
@@ -204,15 +185,12 @@ function calculate(btn, isFromKey) {
     }
     max.remove();
   }
-
   if (btn === "eq") {
     vars.displayInfo.innerText = vars.display.innerText;
     max.remove();
     return;
   }
-
   var operations = vars.displayInfo.innerText;
-
   if (operations.length < 32) {
     if (isFromKey) {
       operations += btn;
@@ -222,29 +200,24 @@ function calculate(btn, isFromKey) {
   } else {
     max.add();
   }
-
   operations = removeZero(operations);
   operations = fixOper(operations);
   vars.displayInfo.innerText = operations;
-
   var calc = "" + eval(vars.display.innerText);
   if (operators.indexOf(btn) === -1) {
     calc = "" + eval(operations);
   }
-
   if (calc.length < 14) {
     if (!calc) {
       vars.display.innerText = "0";
     } else {
       vars.display.innerText = calc;
     }
-
   } else if (calc < 1) {
     vars.display.innerText = (+calc).toPrecision(7);
   } else {
     vars.display.innerText = (+calc).toPrecision(9);
   }
-
 }
 
 var colors = ["pink", "lightblue"];
