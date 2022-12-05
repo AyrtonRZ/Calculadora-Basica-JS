@@ -1,5 +1,5 @@
 body {
-    background: rgb(134, 134, 134) !important;
+    background: rgb(134, 134, 134);
     font-family: Arial, sans-serif;
     transition: background .1s;
   }
@@ -40,6 +40,7 @@ body {
     user-select: none;
     transition: color .1s ease-in;
   }
+
   .max{
     color: rgba(255,150,150,0.8);
   }
